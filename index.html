@@ -55,11 +55,19 @@
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
             max-width: 700px; width: 100%; padding: 10px;
         }
+        .scroll-container {
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            max-height: 60vh; width: 100%; padding: 0 10px;
+        }
+        .scroll-container .menu-grid {
+            margin: 0 auto; min-width: 320px;
+        }
         .menu-btn {
             background: rgba(20, 20, 35, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ccc; padding: 15px; text-align: center; border-radius: 4px;
             cursor: pointer; transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative; overflow: hidden;
+            min-height: 70px; min-width: 60px;
         }
         .menu-btn:hover {
             border-color: #00ffff; background: rgba(0, 255, 255, 0.1); color: #fff;
@@ -208,14 +216,18 @@
     <!-- Levels Menu -->
     <div id="levelsScreen" class="ui-layer menu-overlay hidden">
         <h2 class="text-4xl font-bold text-white mb-8 tracking-widest text-center mt-auto md:mt-0 title-text">SECTOR SELECT</h2>
-        <div id="levelsGrid" class="menu-grid"></div>
+        <div class="scroll-container">
+            <div id="levelsGrid" class="menu-grid"></div>
+        </div>
         <button onclick="showMenu('start')" class="interactive mt-8 nav-btn mb-auto md:mb-0">BACK</button>
     </div>
     <!-- Skins Menu -->
     <div id="skinsScreen" class="ui-layer menu-overlay hidden">
         <h2 class="text-4xl font-bold text-white mb-8 tracking-widest text-center mt-auto md:mt-0 title-text">HANGAR</h2>
         <p class="text-yellow-400 mb-4 font-bold tracking-widest">STARS: <span id="skinMenuStars">0</span></p>
-        <div id="skinsGrid" class="menu-grid"></div>
+        <div class="scroll-container">
+            <div id="skinsGrid" class="menu-grid"></div>
+        </div>
         <button onclick="showMenu('start')" class="interactive mt-8 nav-btn mb-auto md:mb-0">BACK</button>
     </div>
     <!-- Credits Screen -->

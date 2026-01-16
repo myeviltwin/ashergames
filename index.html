@@ -16,6 +16,10 @@
         }
         canvas {
             display: block;
+            touch-action: none;
+        }
+        #gameCanvas {
+            position: fixed; top: 0; left: 0;
         }
         .vignette {
             position: fixed;
@@ -472,11 +476,13 @@
         let obstacles = []; let particles = []; let stars = []; let pickups = [];
         let menuAnimationFrame; let menuShipAngle = 0;
         document.getElementById('starDisplay').innerText = totalStars;
-        function handleInputStart(e) { if(e.type==='touchstart')e.preventDefault(); if(gameState==='PLAYING') inputActive=true; }
-        function handleInputEnd(e) { if(e.type==='touchend')e.preventDefault(); inputActive=false; }
-        document.addEventListener('mousedown', handleInputStart); document.addEventListener('touchstart', handleInputStart, {passive:false});
-        document.addEventListener('mouseup', handleInputEnd); document.addEventListener('touchend', handleInputEnd);
-        document.addEventListener('keydown', (e) => { if(e.code==='Space'||e.code==='ArrowUp') handleInputStart(e); });
+        function handleInputStart(e) { if(gameState==='PLAYING') inputActive=true; }
+        function handleInputEnd(e) { inputActive=false; }
+        canvas.addEventListener('mousedown', handleInputStart, {passive:true});
+        canvas.addEventListener('touchstart', handleInputStart, {passive:true});
+        canvas.addEventListener('mouseup', handleInputEnd, {passive:true});
+        canvas.addEventListener('touchend', handleInputEnd, {passive:true});
+        document.addEventListener('keydown', (e) => { if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();handleInputStart(e);} });
         document.addEventListener('keyup', (e) => { if(e.code==='Space'||e.code==='ArrowUp') handleInputEnd(e); });
         function toggleSFX() { const isMuted = AudioSys.toggle(); document.getElementById('iconSfxOn').classList.toggle('hidden', isMuted); document.getElementById('iconSfxOff').classList.toggle('hidden', !isMuted); }
         function toggleMusic() { const isMuted = MusicSys.toggle(); document.getElementById('iconMusicOn').classList.toggle('hidden', isMuted); document.getElementById('iconMusicOff').classList.toggle('hidden', !isMuted); }

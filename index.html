@@ -918,7 +918,10 @@
             menuLoop();
         }
         function gameLoop(timestamp) {
-            const dt = timestamp - lastTime; lastTime = timestamp; update(dt); draw();
+            if (lastTime === 0) lastTime = timestamp;
+            const dt = Math.min(timestamp - lastTime, 33.33);
+            lastTime = timestamp;
+            update(dt); draw();
             requestAnimationFrame(gameLoop);
         }
         function finishLevel() { if (gameState === 'LEVEL_TRANSITION') return; gameState = 'LEVEL_TRANSITION'; AudioSys.play('warp'); }
@@ -953,7 +956,7 @@
             obstacles = []; particles = []; pickups = [];
             level = startLevel; score = 0; shake = 0; invulnerableTimer = 0; timeScale = 1.0; slowMoTimer = 0;
             currentTheme = THEMES[(level - 1) % THEMES.length]; gameSpeed = CONFIG.initialGameSpeed + (level * 0.5);
-            inputActive = false; obstacleTimer = 0;
+            inputActive = false; obstacleTimer = 0; lastTime = 0;
             document.getElementById('levelDisplay').innerText = level;
             document.getElementById('distanceDisplay').innerText = '0';
             document.getElementById('progressBar').style.width = '0%';

@@ -648,9 +648,10 @@
             for(let i=0; i<count; i++) particles.push({ x:x, y:y, vx:(Math.random()-0.5)*10*speed, vy:(Math.random()-0.5)*10*speed, life:1.0, color:color, size:Math.random()*3+1 });
         }
         function update(dt) {
+            if (dt <= 0 || dt > 100) dt = 16.66;
             const effectiveDt = dt * timeScale;
             if (shake > 0) shake *= 0.9; if (shake < 0.5) shake = 0;
-            const speedFactor = 1.0;
+            const speedFactor = (effectiveDt / 1000) * 60;
             if (slowMoTimer > 0) {
                 slowMoTimer -= dt/1000;
                 if (slowMoTimer <= 0) {

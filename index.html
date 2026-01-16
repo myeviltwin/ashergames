@@ -921,11 +921,17 @@
             }
             menuLoop();
         }
+        const targetFPS = 60;
+        const frameInterval = 1000 / targetFPS;
         function gameLoop(timestamp) {
             if (lastTime === 0) lastTime = timestamp;
-            const dt = Math.min(timestamp - lastTime, 33.33);
-            lastTime = timestamp;
-            update(dt); draw();
+            const elapsed = timestamp - lastTime;
+            if (elapsed < frameInterval) {
+                requestAnimationFrame(gameLoop);
+                return;
+            }
+            lastTime = timestamp - (elapsed % frameInterval);
+            update(frameInterval); draw();
             requestAnimationFrame(gameLoop);
         }
         function finishLevel() { if (gameState === 'LEVEL_TRANSITION') return; gameState = 'LEVEL_TRANSITION'; AudioSys.play('warp'); }
